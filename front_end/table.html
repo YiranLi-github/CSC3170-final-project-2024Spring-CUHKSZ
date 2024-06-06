@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Table Search</title>
+    <link rel="stylesheet" href="css/table.css">
+</head>
+<body>
+
+<div class="guide-bar">
+    <div class="link-buttons">
+        <a href="table.html" class="current-page">Table Search</a>
+        <a href="sql.html">SQL Search</a>
+    </div>
+    <!-- <div class="logo">Your Logo</div> -->
+    <div class="user-box">
+        <div class="login-status">
+            Welcome, <a href="#">Root</a> | <a href="#">Logout</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class = "title">Database Table Search</div>
+    <div class="button-container">
+        <button onclick="setTableName('users')" id="btnUsers">Users</button>
+        <button onclick="setTableName('tags')" id="btnTags">Tags</button>
+        <button onclick="setTableName('videos')" id="btnVideos">Videos</button>
+        <button onclick="setTableName('ads')" id="btnAds">Ads</button>
+        <button onclick="setTableName('AdProviders')" id="btnAdProviders">AdProviders</button>
+    </div>
+    <input type="hidden" id="selected-table">
+    <button onclick="search()" style="margin-top:30px;padding: 12px 24px; font-size: 16px;border-radius: 5px;font-weight: 700;">Search</button> <!-- Adjusted inline style to increase button size -->
+    <div id="result-container"></div>
+</div>
+
+<script>
+
+    
+    var selectedButton = null;
+
+    function setTableName(tableName) {
+        document.getElementById("selected-table").value = tableName;
+        if (selectedButton) {
+            selectedButton.classList.remove('selected');
+        }
+        selectedButton = document.getElementById('btn' + tableName.charAt(0).toUpperCase() + tableName.slice(1));
+        selectedButton.classList.add('selected');
+    }
+
+    function search() {
+        var tableName = document.getElementById("selected-table").value;
+
+        // Make an AJAX request to the server with the selected table name
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/search1", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                displayResults(response);
+            }
+        };
+        xhr.send(JSON.stringify({ table: tableName }));
+    }
+
+    function displayResults(results) {
+        var resultContainer = document.getElementById("result-container");
+        resultContainer.innerHTML = "";
+
+        if (results && results.length > 0) {
+            var table = document.createElement("table");
+            table.id = "result-table";
+
+            var headerRow = table.insertRow();
+            for (var key in results[0]) {
+                var th = document.createElement("th");
+                th.textContent = key;
+                headerRow.appendChild(th);
+            }
+
+            results.forEach(function(rowData) {
+                var row = table.insertRow();
+                for (var key in rowData) {
+                    var cell = row.insertCell();
+                    cell.textContent = rowData[key];
+                }
+            });
+
+            resultContainer.appendChild(table);
+        } else {
+            resultContainer.textContent = "No results found.";
+        }
+    }
+</script>
+
+</body>
+</html>

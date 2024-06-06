@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Search</title>
+    <link rel="stylesheet" href="css/llm.css">
+</head>
+
+<body>
+
+    <div class="guide-bar">
+        <div class="link-buttons">
+            <a href="table.html">Table Search</a>
+            <a href="sql.html" class="current-page">SQL Search</a>
+        </div>
+        <div class="user-box">
+            <div class="login-status">
+                Welcome, <a href="#">Root</a> | <a href="#">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class = "title">SQL Search</div>
+
+        <div class="ask-LLM">
+            <label style="font-size: 22px;">Let LLM help generate SQL query statements:</label>
+            <br>
+            <textarea rows="2" cols="80" style="border-radius: 5px; text-align: left; font-size: 18px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+            </textarea>
+            <br>
+
+            <button style="height: 40px;border-radius: 5px;width: 165px;font-size: 16px; " onclick="outputHello()">Ask LLM</button>
+
+            <br>
+            <br>
+            <label style="font-size: 22px; margin-top: 30px; margin-top: 30px;">LLM's response:</label>
+            <br>
+            <textarea id="output" rows="4" cols="80" style="border-radius: 5px; text-align: left; font-size: 18px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+            </textarea>
+
+        </div>
+
+        
+
+        <div class="form-group">
+            <label for="sql-query">Enter SQL Query:</label>
+            <input type="text" id="sql-query" placeholder="SELECT * FROM table_name" style="max-width: 600px;">
+        </div>
+        <button onclick="search()" style="padding: 12px 24px; font-size: 16px;border-radius: 5px;font-weight: 700;">Search</button> <!-- Adjusted inline style to increase button size -->
+        <div id="result-container"></div>
+    </div>
+
+<script>
+
+    function outputHello() {
+        var inputContent = APIcall();
+        var outputTextarea = document.getElementById("output");
+        
+        // 清空第二个文本框中的内容
+        outputTextarea.value = "";
+        
+        for (var i = 0; i < inputContent.length; i++) {
+            // 使用setTimeout函数延迟显示
+            setTimeout(function(index) {
+                return function() {
+                    outputTextarea.value += inputContent[index];
+                };
+            }(i), i*40); // 每隔1秒显示一个字
+        }
+    }
+
+
+    function search() {
+        var sqlQuery = document.getElementById("sql-query").value;
+
+        // Make an AJAX request to the server with the SQL query
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/search2", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                displayResults(response);
+            }
+        };
+        xhr.send(JSON.stringify({ query: sqlQuery }));
+    }
+
+    function displayResults(results) {
+        var resultContainer = document.getElementById("result-container");
+        resultContainer.innerHTML = "";
+
+        if (results && results.length > 0) {
+            var table = document.createElement("table");
+            table.id = "result-table";
+
+            var headerRow = table.insertRow();
+            for (var key in results[0]) {
+                var th = document.createElement("th");
+                th.textContent = key;
+                headerRow.appendChild(th);
+            }
+
+            results.forEach(function(rowData) {
+                var row = table.insertRow();
+                for (var key in rowData) {
+                    var cell = row.insertCell();
+                    cell.textContent = rowData[key];
+                }
+            });
+
+            resultContainer.appendChild(table);
+        } else {
+            resultContainer.textContent = "No results found.";
+        }
+    }
+</script>
+
+</body>
+</html>

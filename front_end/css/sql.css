@@ -1,0 +1,85 @@
+body {
+    font-family: Calibri, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(248, 232, 57, 0.146);
+}
+.guide-bar {
+    background-color: #b3ebec;
+    color: #0c0c0c;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 21px;
+}
+.guide-bar .logo {
+    font-weight: bold;
+}
+.guide-bar .user-box {
+    display: flex;
+    align-items: center;
+}
+.guide-bar .user-box .login-status {
+    margin-right: 20px;
+}
+.guide-bar .user-box .login-status a {
+    color: #ea9620;
+    text-decoration: none;
+    margin-right: 10px;
+}
+.guide-bar .link-buttons {
+    display: flex;
+    align-items: center;
+}
+.guide-bar .link-buttons a {
+    color: #0c0c0c;
+    text-decoration: none;
+    margin-right: 25px;
+}
+.guide-bar .link-buttons a.current-page {
+    text-decoration: underline;
+    font-weight: 700;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+.title {
+    font-size: 40px;
+    font-weight: 700;
+
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    margin-top: 30px;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 18px;
+    border-radius: 5px;
+}
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+#result-table {
+    margin-top: 30px;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #f5f3f3;
+}
+#result-table th, #result-table td {
+    border: 1px solid #0d0d0d;
+    padding: 8px;
+    text-align: left;
+}
+#result-table th {
+    background-color: #cfcdcd;
+}

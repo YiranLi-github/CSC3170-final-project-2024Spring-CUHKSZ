@@ -1,0 +1,59 @@
+.main {
+    padding: 150px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.log {
+    width: 600px;
+    height: 300px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+
+    border-radius: 10px;
+    background-color: rgba(255,255,255,0.7);
+}
+
+.log form {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.log form h2 {
+    font-size: 40px;
+}
+
+.log form span {
+    font-size: 22px;
+    display: inline-block;
+    width: 90px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.log form sub {
+    width: 260px;
+    height: 30px;
+
+    background: rgba(77,132,226);
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.log form username {
+    width: 165px;
+    height: 30px;
+    padding-left: 10px;
+    /* margin-left: 30px; */
+
+    border-radius: 5px;
+    border: none;
+}
+
+
